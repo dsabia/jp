@@ -15,7 +15,11 @@ Test infrastructure is based on JUnit. The tests are very small, works as integr
 
 One Simulation class run a scenario of working of the application.
 
-TODO:
+
+Improvements to do:
+
 1. Add Spring
+
 2. Change Geometrical Mean calculation
+
 3. Add Drools
