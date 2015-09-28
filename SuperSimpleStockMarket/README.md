@@ -1,6 +1,6 @@
 ## Simulation of Super Simple Stock Market
 
-use:
+Download the project and use:
 	mvn clean install
 
 for compile, run test and run simulation (in SECONDS and not MINUTES).
