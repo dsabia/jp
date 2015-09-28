@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.jp.super_simple.stock_market.application.MarketContext;
 import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
@@ -21,9 +24,13 @@ public class SuperSimpleStockMarketSimulation {
 		int MAX_PRICE = 100;
 	}
 	
-	private MarketContext market = new MarketContext();
+	private static MarketContext market;
 
 	public static void main(String[] args) throws InterruptedException {
+		BasicConfigurator.configure();
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
+		market = applicationContext.getBean(MarketContext.class);
+		
 		SuperSimpleStockMarketSimulation simulation = new SuperSimpleStockMarketSimulation();
 		
 		log.info("*****");

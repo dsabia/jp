@@ -5,14 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
 import com.jp.super_simple.stock_market.domain.constant.TRADE_INDICATOR;
 import com.jp.super_simple.stock_market.domain.model.Stock;
 import com.jp.super_simple.stock_market.domain.model.Trade;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath*:application-context.xml"})
 public class MarketContextTest {
 
 	public static final int T1_QUANTITY = 10;
@@ -26,13 +31,9 @@ public class MarketContextTest {
 	
 	public static final double delta = .0000000001;
 	
+	@Autowired
 	private MarketContext marketContext;
-	
-	@Before
-	public void initialize(){
-		marketContext = new MarketContext();
-	}
-	
+
 	@Test
 	public void testCheckInitialization(){
 		Assert.assertEquals(marketContext.getNumberOfTrades(), new Integer(0));

@@ -2,6 +2,8 @@ package com.jp.super_simple.stock_market.service.calculator;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Component;
+
 import com.jp.super_simple.stock_market.domain.model.Trade;
 
 /**
@@ -9,6 +11,7 @@ import com.jp.super_simple.stock_market.domain.model.Trade;
  * @author Daniel
  *
  */
+@Component
 public class TradeCalculationService {
 
 	/**

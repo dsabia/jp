@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.TreeMap;
 
+import org.springframework.stereotype.Repository;
+
 import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
 import com.jp.super_simple.stock_market.domain.constant.STOCK_TYPE;
 import com.jp.super_simple.stock_market.domain.model.Stock;
@@ -13,6 +15,7 @@ import com.jp.super_simple.stock_market.domain.model.Stock;
  * @author Daniel
  *
  */
+@Repository
 public class StockRepository {
 	static TreeMap<STOCK_SYMB, Stock> stocks;
 	

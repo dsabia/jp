@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -18,6 +24,8 @@ import com.jp.super_simple.stock_market.repository.StockRepository;
  * @author Daniel
  *
  */
+@Component
+@Scope("prototype")
 public class MarketCache {
 
 	public interface CacheLimit {
@@ -28,12 +36,12 @@ public class MarketCache {
 	private LoadingCache<String, TradeAggregator> cacheAllTrades;
 	private Map<Stock, LoadingCache<String, TradeAggregator>> cacheAllTradeLines;
 	
-
-	
+	@Autowired
 	private StockRepository stockRepository;
-	{
+	
+	@PostConstruct
+	public void init(){
 
-		stockRepository = new StockRepository();
 		cacheAllTrades = CacheBuilder.newBuilder().build(new CacheLoader<String, TradeAggregator>() {
 			@Override
 			public TradeAggregator load(String arg0) throws Exception {
@@ -66,5 +74,4 @@ public class MarketCache {
 	public Collection<TradeAggregator> getAllTrades(Stock stock) {
 		return cacheAllTradeLines.get(stock).asMap().values();
 	}
-
 }

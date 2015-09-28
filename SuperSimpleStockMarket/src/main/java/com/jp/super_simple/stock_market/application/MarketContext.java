@@ -3,8 +3,10 @@ package com.jp.super_simple.stock_market.application;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
@@ -23,27 +25,25 @@ import com.jp.super_simple.stock_market.service.factory.TradeFactory;
  * @author Daniel
  * 
  */
+@Component
+@Scope("prototype")
 public class MarketContext {
 
 	private static final Logger log = Logger.getLogger(MarketContext.class.getSimpleName());
 	
+	@Autowired
 	private TradeService tradeService;
+	@Autowired
 	private TradeFactory tradeFactory;
+	@Autowired
 	private TradeAggregatorFactory tradeAggregatorFactory;
+	@Autowired
 	private StockRepository stockRepository;
 	
+	@Autowired
 	private MarketCache marketCache;
 
 	{
-		BasicConfigurator.configure();
-		
-		tradeService = new TradeService();
-		tradeFactory = new TradeFactory();
-		tradeAggregatorFactory = new TradeAggregatorFactory();
-		stockRepository = new StockRepository();
-		
-		marketCache = new MarketCache();
-
 		log.debug("Initialization completed");
 	}
 

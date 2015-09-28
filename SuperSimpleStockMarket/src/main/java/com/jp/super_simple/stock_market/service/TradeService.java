@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
@@ -16,17 +18,15 @@ import com.jp.super_simple.stock_market.service.calculator.TradeCollectionCalcul
  * @author Daniel
  *
  */
+@Service
 public class TradeService {
 
 	private static final Logger log = Logger.getLogger(TradeService.class.getSimpleName());
 
+	@Autowired
 	private StockCalculationService stockCalculationService;
+	@Autowired
 	private TradeCollectionCalculatorService tradeCollectionCalculatorService;
-
-	{
-		stockCalculationService = new StockCalculationService();
-		tradeCollectionCalculatorService = new TradeCollectionCalculatorService();
-	}
 
 	/**
 	 * For given price, retrieve StockAggregator object, and calculate Dividend and P/E Ratio. 

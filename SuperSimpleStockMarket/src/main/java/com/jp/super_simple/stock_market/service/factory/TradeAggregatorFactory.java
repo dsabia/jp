@@ -2,6 +2,9 @@ package com.jp.super_simple.stock_market.service.factory;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
 import com.jp.super_simple.stock_market.domain.model.Stock;
@@ -14,15 +17,13 @@ import com.jp.super_simple.stock_market.service.calculator.TradeCalculationServi
  * @author Daniel
  *
  */
+@Component
 public class TradeAggregatorFactory {
 
+	@Autowired
 	private TradeService tradeService;
+	@Autowired
 	private TradeCalculationService tradeCalculationService;
-	
-	{
-		tradeService = new TradeService();
-		tradeCalculationService = new TradeCalculationService();
-	}
 	
 	/**
 	 * Execute eager calculation such trade.

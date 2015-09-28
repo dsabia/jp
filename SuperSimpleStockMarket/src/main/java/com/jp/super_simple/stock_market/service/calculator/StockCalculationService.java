@@ -3,6 +3,8 @@ package com.jp.super_simple.stock_market.service.calculator;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import org.springframework.stereotype.Component;
+
 import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.constant.STOCK_TYPE;
 import com.jp.super_simple.stock_market.domain.model.Stock;
@@ -11,6 +13,7 @@ import com.jp.super_simple.stock_market.domain.model.Stock;
  * Calculator based for Stock single item.
  * @author Daniel
  */
+@Component
 public class StockCalculationService {
 	
 	/**

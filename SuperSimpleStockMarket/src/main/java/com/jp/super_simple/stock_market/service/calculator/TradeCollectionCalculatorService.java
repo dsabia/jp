@@ -6,6 +6,7 @@ import java.math.MathContext;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
 
@@ -14,6 +15,7 @@ import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
  * @author Daniel
  *
  */
+@Component
 public class TradeCollectionCalculatorService {
 	
 	private static final Logger log = Logger.getLogger(TradeCollectionCalculatorService.class.getSimpleName());
