@@ -14,10 +14,8 @@ import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
 import com.jp.super_simple.stock_market.domain.constant.TRADE_INDICATOR;
 import com.jp.super_simple.stock_market.domain.model.Stock;
 import com.jp.super_simple.stock_market.domain.model.Trade;
-import com.jp.super_simple.stock_market.repository.StockRepository;
+import com.jp.super_simple.stock_market.service.StockService;
 import com.jp.super_simple.stock_market.service.TradeService;
-import com.jp.super_simple.stock_market.service.factory.TradeAggregatorFactory;
-import com.jp.super_simple.stock_market.service.factory.TradeFactory;
 
 /**
  * StateFull Object, because instance a cache, to simulate a context of the application.
@@ -34,11 +32,7 @@ public class MarketContext {
 	@Autowired
 	private TradeService tradeService;
 	@Autowired
-	private TradeFactory tradeFactory;
-	@Autowired
-	private TradeAggregatorFactory tradeAggregatorFactory;
-	@Autowired
-	private StockRepository stockRepository;
+	private StockService stockService;
 	
 	@Autowired
 	private MarketCache marketCache;
@@ -48,33 +42,24 @@ public class MarketContext {
 	}
 
 	public Stock getStock(STOCK_SYMB symb) {
-		return stockRepository.getStock(symb);
+		return stockService.getStock(symb);
 	}
 	
-	public BigDecimal reportDividend(STOCK_SYMB symb, BigDecimal price) {
-		StockAggregator stockAggregator = tradeService.calculate(getStock(symb), price); 
-		BigDecimal dividend = stockAggregator.getDividendYeld();
-		log.debug("Dividend Yeld [" + symb + ","+price+"]:" + dividend);
-		return dividend;
-	}
-	public BigDecimal reportPeRatio(STOCK_SYMB symb, BigDecimal price) {
-		StockAggregator stockAggregator = tradeService.calculate(getStock(symb), price); 
-		BigDecimal dividend = stockAggregator.getPeRatio();
-		log.debug("P/E Ratio [" + symb + ","+price+"]:" + dividend);
-		return dividend;
+	public StockAggregator getStockInfo(STOCK_SYMB symb, BigDecimal price){
+		return tradeService.calculateStockInfo(getStock(symb), price);
 	}
 
 	public Trade simpleGenerateTrade(int quantity, double price, STOCK_SYMB symb, TRADE_INDICATOR indicator) {
-		Trade t = tradeFactory.generateTrade(quantity, price, symb, indicator);
+		Trade t = tradeService.generateTrade(quantity, price, symb, indicator);
 		return t;
 	}
 	public Trade generateTrade(BigInteger quantity, BigDecimal price, Stock stock, TRADE_INDICATOR indicator) {
-		Trade t = tradeFactory.generateTrade(quantity, price, stock, indicator);
+		Trade t = tradeService.generateTrade(quantity, price, stock, indicator);
 		return t;
 	}
 
 	public void registerTrade(Trade trade) {
-		TradeAggregator tradeAggregator = tradeAggregatorFactory.buildTradePrecalculated(trade);
+		TradeAggregator tradeAggregator = tradeService.buildTradePrecalculated(trade);
 		marketCache.addTrade(tradeAggregator);
 		log.debug("Registered " + tradeAggregator );
 	}

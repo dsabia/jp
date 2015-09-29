@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
 import com.jp.super_simple.stock_market.domain.constant.TRADE_INDICATOR;
 import com.jp.super_simple.stock_market.domain.model.Stock;
@@ -67,7 +68,8 @@ public class MarketContextTest {
 		BigDecimal price = new BigDecimal("100");
 		
 		for(STOCK_SYMB symb : STOCK_SYMB.values()){
-			BigDecimal dividend = marketContext.reportDividend(symb, price);
+			StockAggregator stockAggregator = marketContext.getStockInfo(symb, price); 
+			BigDecimal dividend = stockAggregator.getDividendYeld();
 			
 			BigDecimal expected = mapExpectedValues.get(symb);
 			Assert.assertEquals(expected.doubleValue(), dividend.doubleValue(), delta);
@@ -86,10 +88,11 @@ public class MarketContextTest {
 		BigDecimal price = new BigDecimal("100");
 		
 		for(STOCK_SYMB symb : STOCK_SYMB.values()){
-			BigDecimal dividend = marketContext.reportPeRatio(symb, price);
+			StockAggregator stockAggregator = marketContext.getStockInfo(symb, price); 
+			BigDecimal peRatio = stockAggregator.getPeRatio();
 
 			BigDecimal expected = mapExpectedValues.get(symb);
-			Assert.assertEquals(expected.doubleValue(), dividend.doubleValue(), delta);
+			Assert.assertEquals(expected.doubleValue(), peRatio.doubleValue(), delta);
 		}
 	}
 	

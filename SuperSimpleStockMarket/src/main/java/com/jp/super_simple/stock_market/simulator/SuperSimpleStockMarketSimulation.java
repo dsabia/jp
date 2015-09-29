@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.jp.super_simple.stock_market.application.MarketContext;
+import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.constant.STOCK_SYMB;
 import com.jp.super_simple.stock_market.domain.constant.TRADE_INDICATOR;
 import com.jp.super_simple.stock_market.domain.model.Stock;
@@ -55,11 +56,26 @@ public class SuperSimpleStockMarketSimulation {
 		log.info("Simulation completed succesfully.");
 	}
 
+	/**
+	 * Generate Random trade, use api to print Dividend and PE ratio.
+	 */
 	public void generateandRegisterRandomTrade() {
 		Trade trade = generateRandomTrade();
+		reportStockInformation(trade);
 		market.registerTrade(trade);
 	}
 
+	/**
+	 * Print on log information about trade
+	 */
+	private void reportStockInformation(Trade trade) {
+		StockAggregator stockAggregator = market.getStockInfo(trade.getStock().getSymb(), trade.getPrice());
+		log.info(stockAggregator);
+	}
+
+	/**
+	 * Report of Volume Weight Stock Price for all Stock active in the list. 
+	 */
 	public void reportVolumeWeightStockPrice() {
 		for (STOCK_SYMB symb : STOCK_SYMB.values()) {
 			Stock stock = market.getStock(symb);

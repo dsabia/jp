@@ -1,4 +1,4 @@
-package com.jp.super_simple.stock_market.service.factory;
+package com.jp.super_simple.stock_market.factory;
 
 import java.math.BigDecimal;
 
@@ -47,7 +47,7 @@ public class TradeAggregatorFactory {
 	 * @return
 	 */
 	private StockAggregator getStockForTrade(Stock stock, BigDecimal price) {
-		StockAggregator stockAggregator = tradeService.calculate(stock, price);
+		StockAggregator stockAggregator = tradeService.calculateStockInfo(stock, price);
 		return stockAggregator;
 	}
 	
