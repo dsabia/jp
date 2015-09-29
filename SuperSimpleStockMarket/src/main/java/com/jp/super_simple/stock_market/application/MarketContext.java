@@ -46,7 +46,7 @@ public class MarketContext {
 	}
 	
 	public StockAggregator getStockInfo(STOCK_SYMB symb, BigDecimal price){
-		return tradeService.calculateStockInfo(getStock(symb), price);
+		return stockService.calculateStockInfo(getStock(symb), price);
 	}
 
 	public Trade simpleGenerateTrade(int quantity, double price, STOCK_SYMB symb, TRADE_INDICATOR indicator) {

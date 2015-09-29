@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.jp.super_simple.stock_market.domain.aggregator.StockAggregator;
 import com.jp.super_simple.stock_market.domain.aggregator.TradeAggregator;
-import com.jp.super_simple.stock_market.domain.model.Stock;
 import com.jp.super_simple.stock_market.domain.model.Trade;
-import com.jp.super_simple.stock_market.service.TradeService;
+import com.jp.super_simple.stock_market.service.StockService;
 import com.jp.super_simple.stock_market.service.calculator.TradeCalculationService;
 
 /**
@@ -21,7 +20,7 @@ import com.jp.super_simple.stock_market.service.calculator.TradeCalculationServi
 public class TradeAggregatorFactory {
 
 	@Autowired
-	private TradeService tradeService;
+	private StockService stockService;
 	@Autowired
 	private TradeCalculationService tradeCalculationService;
 	
@@ -31,7 +30,7 @@ public class TradeAggregatorFactory {
 	 * @return
 	 */
 	public TradeAggregator buildTradePrecalculated(Trade trade) {
-		StockAggregator stockAggregator = getStockForTrade(trade.getStock(), trade.getPrice());
+		StockAggregator stockAggregator = stockService.calculateStockInfo(trade.getStock(), trade.getPrice());
 		TradeAggregator tradeAggregator = new TradeAggregator(trade, stockAggregator);
 		
 		BigDecimal priceMultQuantity = tradeCalculationService.getPriceMultQuantity(tradeAggregator.getTrade());
@@ -39,16 +38,4 @@ public class TradeAggregatorFactory {
 		
 		return tradeAggregator;
 	}
-	
-	/**
-	 * Execute eager calculation for Stock.
-	 * @param stock
-	 * @param price
-	 * @return
-	 */
-	private StockAggregator getStockForTrade(Stock stock, BigDecimal price) {
-		StockAggregator stockAggregator = tradeService.calculateStockInfo(stock, price);
-		return stockAggregator;
-	}
-	
 }
